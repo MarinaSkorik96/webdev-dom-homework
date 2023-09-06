@@ -220,14 +220,13 @@ const autor = () => {
         deleteCommentButtonDown.classList.remove('none');  
       }).catch((error) => {
         if (error.message === "Повторяется имя") {
-          alert("Повторяется имя")
+          alert("Повторяется имя");
           return;
         }
       })
     });
   })
 }
-
 
 let commentsElement = document.getElementById("comments");
 
