@@ -5,11 +5,10 @@ import { format } from "date-fns";
 export const renderComments = ({ comments }) => {
   let commentsElement = document.getElementById("comments");
   const newComments = comments.map((comment, index) => {
-    const createDate = format(new Date(comment.date), 'yyyy-MM-dd hh.mm.ss');
     return `<li class="comment">
         <div class="comment-header">
           <div>${comment.name}</div>
-          <div>${createDate}</div>
+          <div>${comment.date}</div>
         </div>
           ${comment.quote ? `<div class=quote> ${quote}</div>` : ""}
           ${comment.changeButton ?

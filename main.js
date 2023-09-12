@@ -3,6 +3,8 @@
 import { getTodos, postTodo } from './api.js';
 import { now } from './date.js';
 import { renderComments, replyToComment } from './render.js';
+import { format } from "date-fns";
+
 
 const loading = document.getElementById("loading");
 const loadingForm = document.getElementById("loadingForm");
@@ -12,9 +14,9 @@ const addFormButtonElement = document.getElementById("add-form-button");
 // const form = document.getElementById("add-form");
 // const deleteCommentButton = document.getElementById("delete-comment-button");
 let quote = "";
-let currentDate = new Date();
+// let currentDate = new Date();
 
-now(currentDate);
+// now(currentDate);
 
 let comments = [
 ];
@@ -26,7 +28,7 @@ loading.textContent = "Комментарии загружаются...";
     const appComments = responseData.comments.map((comment) => {
       return {
         name: comment.author.name,
-        date: now(new Date(comment.date)),
+        date: format(new Date(comment.date), 'yyyy-MM-dd hh.mm.ss'),
         text: comment.text,
         likes: 0,
         isLiked: false,
