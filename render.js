@@ -1,14 +1,15 @@
 import { renderAllComments, fetchGet } from './main.js';
 import { getTodos, postTodo, login, token, setToken, UserName, setUserName, UserRegistration } from './api.js';
-
+import { format } from "date-fns";
 
 export const renderComments = ({ comments }) => {
   let commentsElement = document.getElementById("comments");
   const newComments = comments.map((comment, index) => {
+    const createDate = format(new Date(comment.date), 'yyyy-MM-dd hh.mm.ss');
     return `<li class="comment">
         <div class="comment-header">
           <div>${comment.name}</div>
-          <div>${comment.date}</div>
+          <div>${createDate}</div>
         </div>
           ${comment.quote ? `<div class=quote> ${quote}</div>` : ""}
           ${comment.changeButton ?
@@ -34,7 +35,11 @@ export const renderComments = ({ comments }) => {
       </li>`;
   }).join('');
   commentsElement.innerHTML = newComments;
-
+  deleteCommentButton.addEventListener('click', () => {
+    console.log('q');
+    comments.pop();
+    renderAllComments();
+  });
 }
 let addForm = document.getElementById("form")
 
@@ -57,6 +62,20 @@ const appForm = `
       <button class="add-form-button" id="add-form-button">Написать</button>
     </div>
   </div>`;
+
+export const replyToComment = () => {
+  const commentBodys = document.querySelectorAll(".comment-body");
+  for (const commentBody of commentBodys) {
+    commentBody.addEventListener('click', () => {
+      console.log('r');
+      const oldComment = commentBody.dataset.text;
+      const oldName = commentBody.dataset.name;
+      const quote = `${oldComment}\n${oldName}: `;
+      textInputElement.value += `"${quote}"\n`;
+
+    })
+  }
+};
 
 addForm.innerHTML = appForm;
 addForm.classList.add('none');
@@ -82,7 +101,7 @@ const addNewComment = () => {
   }
 
   validation();
-  addForm.disabled = true;
+  // addForm.disabled = true;
   addForm.classList.add('none');
   loadingForm.textContent = 'Комментарий добавляется...';
 
@@ -92,6 +111,7 @@ const addNewComment = () => {
       text: textInputElement.value
     })
       .then((responseData) => {
+        console.log('t');
         return fetchGet();
       })
       .then(() => {
@@ -177,11 +197,12 @@ const autor = () => {
       login: authorizationFormLogin.value,
       password: authorizationFormPassword.value,
     }).then((responseData) => {
-      console.log(token);
+      // console.log(responseData);
+      // console.log(token);
       setToken(responseData.user.token)
       setUserName(responseData.user.name)
       nameInputElement.value = UserName;
-      console.log(UserName);
+      // console.log(UserName);
       authorization.classList.add('none');
       commentsElement.classList.remove('none');
       addForm.classList.remove('none');
@@ -217,7 +238,7 @@ const autor = () => {
         registration.classList.add('none');
         commentsElement.classList.remove('none');
         addForm.classList.remove('none');
-        deleteCommentButtonDown.classList.remove('none');  
+        deleteCommentButtonDown.classList.remove('none');
       }).catch((error) => {
         if (error.message === "Повторяется имя") {
           alert("Повторяется имя");
@@ -272,10 +293,8 @@ form.addEventListener("keyup", (e) => {
   if (e.code === "Enter") addNewComment();
 });
 
-deleteCommentButton.addEventListener('click', () => {
-  comments.pop();
-  renderAllComments();
-});
+
+
 
 
   // goAuthorizationButton.addEventListener("click", () => {

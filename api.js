@@ -19,6 +19,8 @@ export function getTodos() {
     }
   })
     .then((response) => {
+      console.log('222');
+
       return response.json();
     });
 }
@@ -55,6 +57,8 @@ export function postTodo({ name, text }) {
       }
     })
 }
+
+
 
 export function login({ login, password }) {
   return fetch("https://wedev-api.sky.pro/api/user/login", {

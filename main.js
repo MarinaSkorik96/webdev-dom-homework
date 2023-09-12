@@ -2,7 +2,7 @@
 
 import { getTodos, postTodo } from './api.js';
 import { now } from './date.js';
-import { renderComments } from './render.js';
+import { renderComments, replyToComment } from './render.js';
 
 const loading = document.getElementById("loading");
 const loadingForm = document.getElementById("loadingForm");
@@ -33,6 +33,7 @@ loading.textContent = "Комментарии загружаются...";
         changeButton: false,
       }
     })
+    console.log("111");
     loading.textContent = "";
     comments = appComments;
     renderAllComments();
@@ -66,18 +67,19 @@ const clickLike = () => {
   }
 };
 
-const replyToComment = () => {
-  const commentBodys = document.querySelectorAll(".comment-body");
-  for (const commentBody of commentBodys) {
-    commentBody.addEventListener('click', () => {
-      const oldComment = commentBody.dataset.text;
-      const oldName = commentBody.dataset.name;
-      const quote = `${oldComment}\n${oldName}: `;
-      textInputElement.value += `"${quote}"\n`;
+// const replyToComment = () => {
+//   const commentBodys = document.querySelectorAll(".comment-body");
+//   for (const commentBody of commentBodys) {
+//     commentBody.addEventListener('click', () => {
+//       console.log('r');
+//       const oldComment = commentBody.dataset.text;
+//       const oldName = commentBody.dataset.name;
+//       const quote = `${oldComment}\n${oldName}: `;
+//       textInputElement.value += `"${quote}"\n`;
 
-    })
-  }
-};
+//     })
+//   }
+// };
 
  export const renderAllComments = () => {
   renderComments({ comments });
