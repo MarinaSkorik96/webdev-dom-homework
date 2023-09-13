@@ -1,9 +1,11 @@
 import { renderAllComments, fetchGet } from './main.js';
-import { postTodo, login, token, setToken, UserName, setUserName, UserRegistration } from './api.js';
+import {deleteTodo, postTodo, login, token, setToken, UserName, setUserName, UserRegistration } from './api.js';
 
 export const renderComments = ({ comments }) => {
+  console.log(11111)
   let commentsElement = document.getElementById("comments");
   const newComments = comments.map((comment, index) => {
+    // console.log(comment.id);
     return `<li class="comment">
         <div class="comment-header">
           <div>${comment.name}</div>
@@ -22,6 +24,7 @@ export const renderComments = ({ comments }) => {
                 </div>
               </div>`}
         <div class="comment-footer">
+        <button class="delete-comment-button" data-id="${comment.id}">Удалить</button>
           ${comment.changeButton
         ? `<button class="save-comment-button" data-index="${index}">Сохранить</button>`
         : `<button class="change-comment-button" data-index="${index}">Изменить</button>`}
@@ -33,11 +36,8 @@ export const renderComments = ({ comments }) => {
       </li>`;
   }).join('');
   commentsElement.innerHTML = newComments;
-  deleteCommentButton.addEventListener('click', () => {
-    console.log('q');
-    comments.pop();
-    renderAllComments();
-  });
+  console.log(21111)
+
 }
 let addForm = document.getElementById("form")
 
@@ -81,7 +81,7 @@ addForm.classList.add('none');
 const addFormButtonElement = document.getElementById("add-form-button");
 const nameInputElement = document.getElementById("add-form-name");
 const textInputElement = document.getElementById("add-form-text");
-const deleteCommentButton = document.getElementById("delete-comment-button");
+// const deleteCommentButton = document.getElementById("delete-comment-button");
 const loadingForm = document.getElementById("loadingForm");
 
 
@@ -116,7 +116,7 @@ const addNewComment = () => {
         loadingForm.textContent = '';
         addForm.classList.remove('none');
         textInputElement.value = "";
-        nameInputElement.value = "";
+        nameInputElement.value = UserName;
       }).catch((error) => {
         if (error.message === "Сервер упал") {
           // Пробуем снова, если сервер сломался
@@ -141,9 +141,9 @@ addFormButtonElement.addEventListener("click", addNewComment);
 const authorization = document.getElementById('authorization');
 const registration = document.getElementById('registration');
 const goAuthorizationButton = document.getElementById("go-authorization-button");
-const deleteCommentButtonDown = document.getElementById('delete-comment-button');
+// const deleteCommentButtonDown = document.getElementById('delete-comment-button');
 
-deleteCommentButtonDown.classList.add('none');
+// deleteCommentButtonDown.classList.add('none');
 
 const addAutorization = `    
     <div class="authorization-form" id="authorization-form">
@@ -204,7 +204,7 @@ const autor = () => {
       authorization.classList.add('none');
       commentsElement.classList.remove('none');
       addForm.classList.remove('none');
-      deleteCommentButtonDown.classList.remove('none');
+      // deleteCommentButtonDown.classList.remove('none');
     }).catch((error) => {
       if (error.message === "Не верный логин или пароль") {
         alert("Введен не верный логин или пароль")
@@ -236,7 +236,7 @@ const autor = () => {
         registration.classList.add('none');
         commentsElement.classList.remove('none');
         addForm.classList.remove('none');
-        deleteCommentButtonDown.classList.remove('none');
+        // deleteCommentButtonDown.classList.remove('none');
       }).catch((error) => {
         if (error.message === "Повторяется имя") {
           alert("Повторяется имя");

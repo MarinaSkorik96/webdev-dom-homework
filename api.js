@@ -1,3 +1,9 @@
+// export let id;
+// export const setId = (newId) => {
+//   id = newId;
+// }
+
+
 export let token;
 
 export const setToken = (newToken) => {
@@ -57,6 +63,19 @@ export function postTodo({ name, text }) {
       }
     })
 }
+
+export function deleteTodo({ id }) {
+  // let id = responseData.id;
+  return fetch(`https://wedev-api.sky.pro/api/v2/skorik-marina/comments/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    }
+  }).then((response) => {
+    return response.json();
+  })
+}
+
 
 
 
