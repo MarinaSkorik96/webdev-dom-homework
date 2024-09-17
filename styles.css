@@ -29,6 +29,7 @@ body {
       75.42% 75.42% at 50% 42.37%,
       rgba(53, 53, 53, 0) 22.92%,
       #7334ea 100%
+    
     );
     filter: drop-shadow(0px 20px 67px rgba(0, 0, 0, 0.08));
     border-radius: 20px;
@@ -37,7 +38,7 @@ body {
   .comments {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 24px;    
   }
 
   .comment {
@@ -62,6 +63,7 @@ body {
 
   .comment-text {
     font-size: 32px;
+    white-space: pre-line;
   }
 
   .likes {
@@ -134,4 +136,11 @@ body {
 
   .add-form-button:hover {
     opacity: 0.9;
+  }
+
+  .empty {
+    background: gray;
+  }
+  .emptyTextName {
+    background: #c2fd92;
   }
